@@ -1,0 +1,13 @@
+BEGIN:VCARD
+VERSION:3.0
+N:Derouiche;Aymen;;;
+FN:Aymen Derouiche
+TITLE:AI Systems & Product Engineer
+ORG:Aymen Derouiche
+EMAIL;TYPE=INTERNET,PREF:aymen.derouiche@gmail.com
+TEL;TYPE=CELL,VOICE:+32XXXXXXXXX
+URL:https://linkedin.com/in/aymen-derouiche
+URL;TYPE=GitHub:https://github.com/aymexn
+ADR;TYPE=HOME:;;;Mons;;;Belgique
+NOTE:Aymen — I build, I learn, I create, I work, I explore. Tech, Design, Operations, Life.
+END:VCARD
