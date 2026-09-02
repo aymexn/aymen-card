@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aymen Derouiche — Personal QR Profile
 
-## Getting Started
+A fast, mobile-first personal website designed as the digital extension of my physical business card.
 
-First, run the development server:
+The website is intentionally different from my main engineering portfolio.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+It gives visitors a simple way to:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- discover who I am
+- choose between my two professional profiles
+- contact me directly
+- explore my full portfolio
+- save my contact information
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Purpose
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This website is primarily accessed through a QR code printed on my physical business card.
 
-## Learn More
+The experience is built around one simple flow:
 
-To learn more about Next.js, take a look at the following resources:
+**SCAN → DISCOVER → CHOOSE A PROFILE → CONTACT → EXPLORE**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+It represents different sides of me:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Software & AI
+- E-commerce
+- Design & Digital
+- Retail & Sales
+- POS / Cashier
+- Logistics
+- Customer Service
+- Horeca / Restaurant
+- Basketball & personal interests
 
-## Deploy on Vercel
+The goal is to present me as a person, not only as a job title or CV.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Profiles
+
+### Technical Profile
+
+Focused on:
+
+- AI Systems
+- Software Engineering
+- Full-Stack Development
+- Distributed Systems
+- Enterprise Software
+- E-Commerce
+- Automation
+
+### Operations Profile
+
+Focused on:
+
+- Retail
+- Sales
+- Customer Service
+- POS / Cash handling
+- Stock management
+- Logistics
+- Order preparation
+- Horeca / Service
+
+The website provides a dedicated CV for each profile.
+
+---
+
+## Main Features
+
+### Personal Profile
+
+- Aymen Derouiche
+- AI Systems & Product Engineer
+- Mons, Belgium
+- Personal introduction
+- Interests and activities
+- Basketball / lifestyle section
+
+### Direct Contact
+
+- WhatsApp
+- Phone
+- Email
+- LinkedIn
+- GitHub
+
+### Two CVs
+
+- Technical / Engineering CV
+- Operations / Retail / Logistics / Horeca CV
+
+Each CV can be:
+
+- viewed
+- opened as PDF
+- downloaded
+
+### Portfolio
+
+The QR website also provides a direct link to the complete engineering portfolio:
+
+**https://aymenderouiche.com/**
+
+The QR website is intentionally lightweight; the main portfolio contains the deeper project and engineering case studies.
+
+### Save Contact
+
+Visitors can download a digital contact card (`.vcf`) and save my contact information directly to their phone.
+
+---
+
+## Pages
+
+```text
+/
+Main personal profile and QR landing page
+
+/cv
+Technical + Operations CV selection
+
+/contact
+Direct contact information
