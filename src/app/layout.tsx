@@ -3,6 +3,9 @@ import { Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
+import AmbientLighting from "@/components/AmbientLighting";
+import ScrollProgress from "@/components/ScrollProgress";
+import SmoothScroll from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -15,30 +18,33 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0B1B2B",
+  themeColor: "#030712",
 };
 
 export const metadata: Metadata = {
-  title: "Aymen Derouiche — AI Systems & Product Engineer",
+  title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
   description:
-    "A personal digital profile for Aymen Derouiche — software, AI, design, e-commerce, operations and life in Belgium.",
+    "Profil numérique personnel d'Aymen Derouiche. Architectures logicielles SaaS, systèmes IA multi-agents et gestion opérationnelle rigoureuse à Mons, Belgique.",
   keywords: [
     "Aymen Derouiche",
-    "AI Systems Engineer",
+    "Ingénieur Logiciel",
+    "Product Engineer",
     "Full-Stack Developer",
+    "Next.js",
+    "Python",
+    "AI Agents",
+    "Retail Management",
+    "Horeca",
     "Mons",
     "Belgique",
-    "Next.js",
-    "Product Engineer",
-    "Operations",
   ],
   authors: [{ name: "Aymen Derouiche", url: "https://github.com/aymexn" }],
   creator: "Aymen Derouiche",
   metadataBase: new URL("https://aymenderouiche.com"),
   openGraph: {
-    title: "Aymen Derouiche — AI Systems & Product Engineer",
+    title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
     description:
-      "A personal digital profile for Aymen Derouiche — software, AI, design, e-commerce, operations and life in Belgium.",
+      "Profil numérique personnel d'Aymen Derouiche. Architectures logicielles SaaS, systèmes IA multi-agents et gestion opérationnelle rigoureuse à Mons, Belgique.",
     url: "https://aymenderouiche.com",
     siteName: "Aymen Derouiche",
     images: [
@@ -54,9 +60,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aymen Derouiche — AI Systems & Product Engineer",
+    title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
     description:
-      "Aymen Derouiche — Bâtir, apprendre, créer, travailler, explorer. Tech, opérations, vie à Mons, Belgique.",
+      "Aymen Derouiche — BUILD · LEARN · CREATE · WORK · EXPLORE. Ingénierie logicielle et excellence opérationnelle.",
     images: ["/photo.jpg"],
   },
   icons: {
@@ -72,11 +78,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${manrope.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-[#0B1B2B] text-[#F7F5F0]">
-        <Header />
-        <main className="flex-1 pb-20 sm:pb-8">{children}</main>
-        <Footer />
-        <MobileBottomNav />
+      <body className="min-h-full flex flex-col bg-[#030712] text-[#F8FAFC] relative selection:bg-[#19D7FF]/20 selection:text-[#19D7FF]">
+        {/* Site-wide Lenis Smooth Scrolling Wrapper */}
+        <SmoothScroll>
+          {/* Subtle Ambient Studio Lighting & Grid */}
+          <AmbientLighting />
+
+          {/* Top/Side Scroll Progress Indicator */}
+          <ScrollProgress />
+
+          <Header />
+          <main className="flex-1 pb-16 sm:pb-10 relative z-10">{children}</main>
+          <Footer />
+          <MobileBottomNav />
+        </SmoothScroll>
       </body>
     </html>
   );

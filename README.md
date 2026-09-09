@@ -1,124 +1,93 @@
-# Aymen Derouiche — Personal QR Profile
+# Aymen Derouiche — Carte Numérique Personnelle & Portfolio QR
 
-A fast, mobile-first personal website designed as the digital extension of my physical business card.
+Site portfolio personnel à haute performance et finition niveau Awwwards, conçu comme l'extension numérique immédiate d'une carte de visite physique avec QR code.
 
-The website is intentionally different from my main engineering portfolio.
-
-It gives visitors a simple way to:
-
-- discover who I am
-- choose between my two professional profiles
-- contact me directly
-- explore my full portfolio
-- save my contact information
-
-## Purpose
-
-This website is primarily accessed through a QR code printed on my physical business card.
-
-The experience is built around one simple flow:
-
-**SCAN → DISCOVER → CHOOSE A PROFILE → CONTACT → EXPLORE**
-
-It represents different sides of me:
-
-- Software & AI
-- E-commerce
-- Design & Digital
-- Retail & Sales
-- POS / Cashier
-- Logistics
-- Customer Service
-- Horeca / Restaurant
-- Basketball & personal interests
-
-The goal is to present me as a person, not only as a job title or CV.
+Construit pour smartphone en priorité (scan de QR code en situation réelle) tout en offrant une profondeur visuelle, du parallaxe et une fluidité de défilement exemplaires sur grand écran.
 
 ---
 
-## Profiles
+## Architecture de l'Information (IA en 4 temps)
 
-### Technical Profile
-
-Focused on:
-
-- AI Systems
-- Software Engineering
-- Full-Stack Development
-- Distributed Systems
-- Enterprise Software
-- E-Commerce
-- Automation
-
-### Operations Profile
-
-Focused on:
-
-- Retail
-- Sales
-- Customer Service
-- POS / Cash handling
-- Stock management
-- Logistics
-- Order preparation
-- Horeca / Service
-
-The website provides a dedicated CV for each profile.
+1. **HERO** : Portrait grand format intégré par masque dégradé, nom, sous-titre à la première personne, devise stylisée (`BUILD · LEARN · CREATE · WORK · EXPLORE`) et accent géométrique 3D discret.
+2. **DEUX PARCOURS (TWO PATHS)** : Sélecteur split-panel interactif présentant les deux trajectoires professionnelles :
+   - **Tech & Software** (`#tech`) : Architectures SaaS, IA multi-agents, Next.js, Python, PostgreSQL.
+   - **Retail & Hospitality** (`#hospitality`) : Rigueur de caisse POS, rush horeca, logistique des stocks, sens client.
+   *Les tags de compétences ne sont déclarés qu'une seule fois ici.*
+3. **PROJET PHARE (SELECTED WORK)** : Présentation teaser type étude de cas d'**AtlasERP & Agents IA**, métriques de performance, schéma d'architecture et passerelle vers le portfolio complet.
+4. **CONTACT DIRECT** : Canaux immédiats (WhatsApp conditionnel, email avec copie en 1 clic et notification toast, LinkedIn, GitHub, appel direct et téléchargement instantané du fichier contact `.vcf`).
 
 ---
 
-## Main Features
+## Optimisations Ultra-Fast Mobile
 
-### Personal Profile
-
-- Aymen Derouiche
-- AI Systems & Product Engineer
-- Mons, Belgium
-- Personal introduction
-- Interests and activities
-- Basketball / lifestyle section
-
-### Direct Contact
-
-- WhatsApp
-- Phone
-- Email
-- LinkedIn
-- GitHub
-
-### Two CVs
-
-- Technical / Engineering CV
-- Operations / Retail / Logistics / Horeca CV
-
-Each CV can be:
-
-- viewed
-- opened as PDF
-- downloaded
-
-### Portfolio
-
-The QR website also provides a direct link to the complete engineering portfolio:
-
-**https://aymenderouiche.com/**
-
-The QR website is intentionally lightweight; the main portfolio contains the deeper project and engineering case studies.
-
-### Save Contact
-
-Visitors can download a digital contact card (`.vcf`) and save my contact information directly to their phone.
+- **Suppression du délai de 300ms** : `touch-action: manipulation` et `-webkit-tap-highlight-color: transparent` appliqués à tous les boutons et liens.
+- **Physics 120Hz Native Touch** : Lenis smooth-scroll n'est activé que sur les périphériques de bureau avec souris (`pointer: fine`). Sur smartphone, le défilement tactile natif avec accélération matérielle (`-webkit-overflow-scrolling: touch`) est conservé pour une réactivité instantanée sous le doigt.
+- **Accélération matérielle & désactivation WebGL sur mobile** : L'accent 3D Three.js est exécuté sur desktop uniquement pour préserver à 100% l'autonomie et les performances CPU/GPU du téléphone.
+- **Composants magnétiques transparents au touch** : Les calculs magnétiques sont bypassés sur mobile pour déclencher les clics immédiatement.
 
 ---
 
-## Pages
+## Stack Technique
 
-```text
-/
-Main personal profile and QR landing page
+- **Framework** : Next.js 16+ (App Router), React 19, TypeScript
+- **Styling** : Tailwind CSS v4, tokens CSS personnalisés (Midnight Navy, Warm Off-White, Luminescent Cyan, Muted Gold)
+- **Animation** : Framer Motion, Lenis (desktop smooth-scroll)
+- **3D Accent** : Three.js (accent filaire discret, désactivé sur mobile)
+- **Icônes** : Lucide React + Icônes vectorielles officielles
 
-/cv
-Technical + Operations CV selection
+---
 
-/contact
-Direct contact information
+## Configuration & Variables d'Environnement
+
+Créez un fichier `.env.local` à la racine :
+
+```env
+# Numéro WhatsApp au format international sans + ni espaces (ex: 32470123456)
+NEXT_PUBLIC_WHATSAPP_NUMBER=""
+
+# Numéro pour appel direct téléphonique (optionnel)
+NEXT_PUBLIC_PHONE_NUMBER=""
+```
+
+Si `NEXT_PUBLIC_WHATSAPP_NUMBER` n'est pas renseigné, un badge élégant "Bientôt actif" s'affiche automatiquement sans erreur.
+
+---
+
+## Lancer le Projet Localement
+
+```bash
+# 1. Installer les dépendances
+npm install
+
+# 2. Lancer le serveur de développement
+npm run dev
+
+# 3. Ouvrir dans votre navigateur
+# http://localhost:3000
+```
+
+Pour tester la compilation de production et valider le typage :
+
+```bash
+npm run build
+```
+
+---
+
+## Déploiement sur Vercel (Zero-Config)
+
+Le projet est entièrement statique et optimisé pour Vercel.
+
+### Option 1 : Via le Dashboard Vercel
+1. Importez votre dépôt GitHub sur [vercel.com/new](https://vercel.com/new).
+2. Dans **Environment Variables**, ajoutez si souhaité :
+   - `NEXT_PUBLIC_WHATSAPP_NUMBER` = votre numéro (ex: `32470123456`)
+   - `NEXT_PUBLIC_PHONE_NUMBER` = votre numéro d'appel
+3. Cliquez sur **Deploy**.
+
+### Option 2 : Via la CLI Vercel
+```bash
+npm install -g vercel
+vercel
+```
+Le build static sera généré et déployé en quelques secondes avec zéro configuration supplémentaire.

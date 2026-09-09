@@ -1,105 +1,168 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0B1B2B;
-  --color-navy-dark: #07121E;
-  --color-navy-surface: #0E2033;
-  --color-navy-card: #13273D;
-  --color-navy-border: #1E3B5C;
-  --color-offwhite: #F7F5F0;
-  --color-offwhite-muted: #9FB2C8;
-  --color-gold: #C9994A;
-  --color-gold-hover: #DCAE5D;
-  --color-gold-muted: rgba(201, 153, 74, 0.15);
-  --color-gold-glow: rgba(201, 153, 74, 0.3);
+  --color-bg-base: #030712;
+  --color-surface: #070E1B;
+  --color-surface-elevated: #0D1527;
+  --color-text-main: #F8FAFC;
+  --color-text-muted: #94A3B8;
+  --color-accent-cyan: #19D7FF;
+  --color-accent-gold: #D4AF37;
+  --color-accent-green: #25D366;
 }
 
 :root {
-  --bg-primary: #0B1B2B;
-  --bg-surface: #0E2033;
-  --bg-card: #13273D;
-  --border-subtle: rgba(201, 153, 74, 0.18);
-  --border-light: rgba(255, 255, 255, 0.08);
-  --text-main: #F7F5F0;
-  --text-muted: #9FB2C8;
-  --accent-gold: #C9994A;
-  --accent-gold-hover: #DCAE5D;
+  --bg: #030712;
+  --surface: #070E1B;
+  --surface-elevated: #0D1527;
+  --surface-border: rgba(255, 255, 255, 0.08);
+  --text: #F8FAFC;
+  --muted: #94A3B8;
+  --cyan: #19D7FF;
+  --gold: #D4AF37;
+  --green: #25D366;
 }
 
 * {
   box-sizing: border-box;
 }
 
+/* 1. Eliminate 300ms mobile touch delay across all interactive elements */
+a, button, input, [role="button"], [role="tab"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Lenis smooth scroll recommended base (Active on desktop) */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* 2. Mobile 120Hz Native Touch Scrolling Physics */
 html {
-  scroll-behavior: smooth;
   color-scheme: dark;
+  background-color: #030712;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
-  background-color: #0B1B2B;
-  color: #F7F5F0;
+  background-color: #030712;
+  color: #F8FAFC;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.65;
+  line-height: 1.55;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom scrollbar */
+/* Subtle Technical Grid Overlay */
+.bg-tech-grid {
+  background-size: 48px 48px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 85% 65% at 50% 25%, #000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 85% 65% at 50% 25%, #000 60%, transparent 100%);
+}
+
+/* Micro Noise Texture */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+}
+
+/* Minimalist scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #07121E;
+  background: #030712;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1E3B5C;
+  background: #162032;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9994A;
+  background: #19D7FF;
 }
 
-/* Glassmorphic card styling */
-.card-surface {
-  background: #0E2033;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+/* 3D Perspective Contexts */
+.perspective-1000 {
+  perspective: 1000px;
 }
 
-.card-surface:hover {
-  border-color: rgba(201, 153, 74, 0.4);
-  transform: translateY(-2px);
+.perspective-1200 {
+  perspective: 1200px;
 }
 
-/* Subtle glow accent */
-.gold-glow {
-  box-shadow: 0 0 25px rgba(201, 153, 74, 0.18);
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
-/* Animation keyframes */
-@keyframes fadeInSlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Custom glow borders */
+.border-cyan-subtle {
+  border: 1px solid rgba(25, 215, 255, 0.22);
 }
 
-.animate-fade-in {
-  animation: fadeInSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.border-cyan-glow {
+  border: 1px solid rgba(25, 215, 255, 0.35);
+  box-shadow: 0 0 30px -5px rgba(25, 215, 255, 0.15);
 }
 
-/* Safe area padding for mobile navigation */
+.border-gold-subtle {
+  border: 1px solid rgba(212, 175, 55, 0.22);
+}
+
+.border-gold-glow {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 30px -5px rgba(212, 175, 55, 0.15);
+}
+
+/* Mobile Safe Nav Padding */
 .pb-safe-nav {
-  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 1rem));
+  padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 1rem));
+}
+
+/* Instant active tap state feedback without lag */
+@media (pointer: coarse) {
+  a, button {
+    min-height: 44px;
+  }
+  
+  a:active, button:active {
+    transform: scale(0.97);
+    transition: transform 60ms ease-out !important;
+  }
+}
+
+/* Reduced motion overrides */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

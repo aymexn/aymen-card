@@ -2,49 +2,57 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ArrowUpRight } from "lucide-react";
 import { CONTACT } from "@/lib/contact";
 
 export default function Header() {
   const pathname = usePathname();
 
-  const navLinks = [
-    { name: "Accueil", href: "/" },
-    { name: "CVs", href: "/cv" },
-    { name: "Contact", href: "/contact" },
-  ];
-
   return (
-    <header className="w-full border-b border-white/5 bg-[#07121E]/80 backdrop-blur-md sticky top-0 z-40">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="group flex items-center gap-3">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#C9994A] group-hover:scale-125 transition-transform duration-200" />
-          <div className="flex flex-col">
-            <span className="text-sm sm:text-base font-bold tracking-wider uppercase text-[#F7F5F0]">
-              {CONTACT.name}
-            </span>
-            <span className="text-[10px] sm:text-xs text-[#9FB2C8] tracking-wider uppercase font-medium">
-              Mons, Belgique
-            </span>
-          </div>
+    <header className="w-full sticky top-0 z-40 bg-[#030712]/80 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+        {/* Monogram / Brand Identity */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <span className="w-2 h-2 rounded-full bg-[#19D7FF] group-hover:scale-125 transition-transform shadow-[0_0_8px_rgba(25,215,255,0.8)]" />
+          <span className="text-xs font-black tracking-widest uppercase text-[#F8FAFC]">
+            AYMEN
+          </span>
+          <span className="text-[10px] font-mono text-[#94A3B8] hidden sm:inline">
+            {"// MONS, BE"}
+          </span>
         </Link>
 
-        <nav className="flex items-center gap-1 sm:gap-2">
-          {navLinks.map((link) => {
-            const isActive = pathname === link.href;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? "bg-[#C9994A] text-[#0B1B2B] font-semibold"
-                    : "text-[#9FB2C8] hover:text-[#F7F5F0] hover:bg-white/5"
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
+        {/* Minimal Navigation */}
+        <nav className="flex items-center gap-1.5 sm:gap-2">
+          <Link
+            href="/cv"
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
+              pathname === "/cv"
+                ? "bg-[#19D7FF] text-[#030712] font-black shadow-md shadow-cyan-500/20"
+                : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/5"
+            }`}
+          >
+            CVs
+          </Link>
+          <Link
+            href="/contact"
+            className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
+              pathname === "/contact"
+                ? "bg-[#19D7FF] text-[#030712] font-black shadow-md shadow-cyan-500/20"
+                : "text-[#94A3B8] hover:text-[#F8FAFC] hover:bg-white/5"
+            }`}
+          >
+            Contact
+          </Link>
+          <a
+            href={CONTACT.portfolioUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden sm:inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#94A3B8] hover:text-[#19D7FF] hover:bg-white/5 transition-all"
+          >
+            <span>Portfolio</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
         </nav>
       </div>
     </header>
