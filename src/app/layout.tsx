@@ -3,7 +3,8 @@ import { Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import MobileBottomNav from "@/components/MobileBottomNav";
-import AmbientLighting from "@/components/AmbientLighting";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import LivingBackground from "@/components/background/LivingBackground";
 import ScrollProgress from "@/components/ScrollProgress";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import "./globals.css";
@@ -22,29 +23,30 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
+  title: "Aymen Derouiche — Étudiant polyvalent à Mons | CV & Portfolio",
   description:
-    "Profil numérique personnel d'Aymen Derouiche. Architectures logicielles SaaS, systèmes IA multi-agents et gestion opérationnelle rigoureuse à Mons, Belgique.",
+    "Étudiant polyvalent à Mons, disponible pour des opportunités en vente, caisse, horeca, service client, logistique et informatique.",
   keywords: [
     "Aymen Derouiche",
-    "Ingénieur Logiciel",
-    "Product Engineer",
-    "Full-Stack Developer",
-    "Next.js",
-    "Python",
-    "AI Agents",
-    "Retail Management",
+    "Étudiant polyvalent",
+    "Job étudiant Mons",
+    "Vente",
+    "Caisse",
     "Horeca",
+    "Service client",
+    "Logistique",
     "Mons",
     "Belgique",
+    "Next.js",
+    "Software Engineer",
   ],
   authors: [{ name: "Aymen Derouiche", url: "https://github.com/aymexn" }],
   creator: "Aymen Derouiche",
   metadataBase: new URL("https://aymenderouiche.com"),
   openGraph: {
-    title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
+    title: "Aymen Derouiche — Étudiant polyvalent à Mons | CV & Portfolio",
     description:
-      "Profil numérique personnel d'Aymen Derouiche. Architectures logicielles SaaS, systèmes IA multi-agents et gestion opérationnelle rigoureuse à Mons, Belgique.",
+      "Étudiant polyvalent à Mons, disponible pour des opportunités en vente, caisse, horeca, service client, logistique et informatique.",
     url: "https://aymenderouiche.com",
     siteName: "Aymen Derouiche",
     images: [
@@ -60,9 +62,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aymen Derouiche — Ingénieur Systèmes & Produit",
+    title: "Aymen Derouiche — Étudiant polyvalent à Mons | CV & Portfolio",
     description:
-      "Aymen Derouiche — BUILD · LEARN · CREATE · WORK · EXPLORE. Ingénierie logicielle et excellence opérationnelle.",
+      "Étudiant polyvalent disponible immédiatement à Mons : Vente, Caisse, Horeca, Service client, Logistique et Tech.",
     images: ["/photo.jpg"],
   },
   icons: {
@@ -79,17 +81,22 @@ export default function RootLayout({
   return (
     <html lang="fr" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-[#030712] text-[#F8FAFC] relative selection:bg-[#19D7FF]/20 selection:text-[#19D7FF]">
-        {/* Site-wide Lenis Smooth Scrolling Wrapper */}
+        {/* Site-wide Smooth Scrolling on Desktop */}
         <SmoothScroll>
-          {/* Subtle Ambient Studio Lighting & Grid */}
-          <AmbientLighting />
+          {/* Dynamic Living 3D Background with Aurora Mesh, Grain & Cursor Tracking */}
+          <LivingBackground />
 
           {/* Top/Side Scroll Progress Indicator */}
           <ScrollProgress />
 
           <Header />
-          <main className="flex-1 pb-16 sm:pb-10 relative z-10">{children}</main>
+          <main className="flex-1 pb-20 sm:pb-12 relative z-10">{children}</main>
           <Footer />
+
+          {/* Persistent Global Floating WhatsApp Button */}
+          <FloatingWhatsApp />
+
+          {/* Mobile Bottom Navigation Bar */}
           <MobileBottomNav />
         </SmoothScroll>
       </body>
