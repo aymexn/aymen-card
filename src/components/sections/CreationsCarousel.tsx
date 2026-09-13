@@ -132,7 +132,7 @@ const PROJECTS: ProjectItem[] = [
     category: "ARCHITECTURE SAAS",
     title: "AtlasERP Cloud Platform",
     shortDesc: "Gestion commerciale centralisée, stocks et facturation multi-tenant.",
-    image: "/images/atlaserp.png",
+    image: "/images/atlaserp.jpg",
     role: "Concepteur & Développeur Full-Stack",
     tools: ["Next.js", "NestJS", "PostgreSQL", "Redis"],
     objective: "Fournir un outil de gestion robuste et rapide sous forte cadence opérationnelle.",
