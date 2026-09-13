@@ -229,24 +229,37 @@ export default function CreationsCarousel() {
               }}
               className="w-[82vw] sm:w-[320px] md:w-[340px] shrink-0 snap-start rounded-2xl bg-[#070E1B] border border-white/10 hover:border-[#19D7FF]/50 transition-all duration-200 cursor-pointer overflow-hidden flex flex-col group active:scale-[0.98] shadow-lg"
             >
-              {/* Image Preview */}
-              <div className="relative w-full h-44 sm:h-48 bg-[#030712] overflow-hidden">
+              {/* Category & Index Header Bar */}
+              <div className="px-3.5 py-2 flex items-center justify-between border-b border-white/[0.06] bg-[#050914]/80">
+                <span className="text-[10px] font-mono font-bold tracking-wider text-[#19D7FF] uppercase truncate max-w-[200px]">
+                  {project.category}
+                </span>
+                <span className="text-[10px] font-mono text-[#94A3B8]/60 shrink-0">
+                  {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                </span>
+              </div>
+
+              {/* Image Preview - Full image displayed with zero cropping */}
+              <div className="relative w-full h-64 sm:h-72 bg-[#02050E] overflow-hidden flex items-center justify-center">
+                {/* Soft ambient blur backdrop using the image's own colors */}
                 <Image
                   src={project.image}
-                  alt={project.title}
+                  alt=""
                   fill
-                  sizes="(max-width: 640px) 82vw, 340px"
-                  className="object-cover object-center group-hover:scale-105 transition-transform duration-500 filter contrast-[1.02] brightness-95"
+                  aria-hidden="true"
+                  className="object-cover scale-125 blur-2xl opacity-35 pointer-events-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070E1B] via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-[#02050E]/40 pointer-events-none" />
 
-                {/* Category Pill */}
-                <div className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full bg-[#070E1B]/90 border border-white/15 text-[9px] font-mono font-bold tracking-wider text-[#19D7FF] uppercase backdrop-blur-md">
-                  {project.category}
-                </div>
-
-                <div className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-[#070E1B]/80 flex items-center justify-center text-[10px] font-mono text-[#94A3B8] border border-white/10">
-                  {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                {/* Foreground uncropped image */}
+                <div className="relative w-full h-full p-2.5 flex items-center justify-center z-[1]">
+                  <Image
+                    src={project.image}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 640px) 85vw, 340px"
+                    className="object-contain p-1 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.85)] group-hover:scale-[1.03] transition-transform duration-300"
+                  />
                 </div>
               </div>
 
@@ -320,16 +333,30 @@ export default function CreationsCarousel() {
               <X className="w-4 h-4" />
             </button>
 
-            {/* Modal Image */}
-            <div className="relative w-full h-52 sm:h-64 rounded-2xl overflow-hidden bg-[#030712] border border-white/10 shrink-0">
+            {/* Modal Image - Full artwork displayed without cropping */}
+            <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden bg-[#02050E] border border-white/10 shrink-0 flex items-center justify-center">
+              {/* Soft ambient blur backdrop */}
               <Image
                 src={selectedProject.image}
-                alt={selectedProject.title}
+                alt=""
                 fill
-                sizes="(max-width: 640px) 100vw, 560px"
-                className="object-cover object-center filter brightness-95"
+                aria-hidden="true"
+                className="object-cover scale-125 blur-3xl opacity-35 pointer-events-none"
               />
-              <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#070E1B]/90 border border-white/20 text-[10px] font-mono font-bold text-[#19D7FF] uppercase">
+              <div className="absolute inset-0 bg-[#02050E]/40 pointer-events-none" />
+
+              {/* Foreground uncropped image */}
+              <div className="relative w-full h-full p-2 sm:p-3 flex items-center justify-center z-[1]">
+                <Image
+                  src={selectedProject.image}
+                  alt={selectedProject.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 600px"
+                  className="object-contain filter drop-shadow-[0_12px_30px_rgba(0,0,0,0.9)]"
+                />
+              </div>
+
+              <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-[#070E1B]/90 border border-white/20 text-[10px] font-mono font-bold text-[#19D7FF] uppercase backdrop-blur-md z-10">
                 {selectedProject.category}
               </div>
             </div>

@@ -49,17 +49,25 @@ export default function AtlasErpCompact() {
 
         {/* Compact Showcase Box */}
         <div className="rounded-2xl p-5 sm:p-6 bg-[#070E1B] border border-white/10 hover:border-[#19D7FF]/30 transition-all flex flex-col md:flex-row gap-5 items-center">
-          {/* Compact Mockup Thumbnail */}
-          <div className="relative w-full md:w-64 h-36 sm:h-40 rounded-xl overflow-hidden bg-[#030712] border border-white/10 shrink-0">
+          {/* Compact Mockup Thumbnail - Full preview with zero crop */}
+          <div className="relative w-full md:w-64 h-40 sm:h-44 rounded-xl overflow-hidden bg-[#02050E] border border-white/10 shrink-0 flex items-center justify-center">
             <Image
               src="/images/atlaserp.png"
-              alt="AtlasERP Aperçu Interface SaaS"
+              alt=""
               fill
-              sizes="(max-width: 768px) 100vw, 256px"
-              className="object-cover object-top filter brightness-95"
+              aria-hidden="true"
+              className="object-cover scale-125 blur-xl opacity-30 pointer-events-none"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#030712]/80 via-transparent to-transparent pointer-events-none" />
-            <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-[#030712]/90 text-[9px] font-mono text-[#19D7FF] border border-white/10">
+            <div className="relative w-full h-full p-2 flex items-center justify-center z-[1]">
+              <Image
+                src="/images/atlaserp.png"
+                alt="AtlasERP Aperçu Interface SaaS"
+                fill
+                sizes="(max-width: 768px) 100vw, 256px"
+                className="object-contain filter drop-shadow-[0_6px_16px_rgba(0,0,0,0.85)]"
+              />
+            </div>
+            <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-[#030712]/90 text-[9px] font-mono text-[#19D7FF] border border-white/10 z-10">
               Demo Preview
             </span>
           </div>
