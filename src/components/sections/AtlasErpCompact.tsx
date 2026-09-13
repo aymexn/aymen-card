@@ -51,13 +51,8 @@ export default function AtlasErpCompact() {
         <div className="rounded-2xl p-5 sm:p-6 bg-[#070E1B] border border-white/10 hover:border-[#19D7FF]/30 transition-all flex flex-col md:flex-row gap-5 items-center">
           {/* Compact Mockup Thumbnail - Full preview with zero crop */}
           <div className="relative w-full md:w-72 h-44 sm:h-48 rounded-xl overflow-hidden bg-[#02050E] border border-white/10 shrink-0 flex items-center justify-center">
-            <Image
-              src="/images/atlaserp.jpg"
-              alt=""
-              fill
-              aria-hidden="true"
-              className="object-cover scale-125 blur-xl opacity-30 pointer-events-none"
-            />
+            {/* Pure CSS Ambient Lighting */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(25,215,255,0.12),_transparent_75%)] pointer-events-none" />
             <div className="relative w-full h-full p-1.5 flex items-center justify-center z-[1]">
               <Image
                 src="/images/atlaserp.jpg"

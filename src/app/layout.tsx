@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Aymen Derouiche", url: "https://github.com/aymexn" }],
   creator: "Aymen Derouiche",
-  metadataBase: new URL("https://aymenderouiche.com"),
+  metadataBase: new URL("https://portfolio-pi-five-bykqu64adi.vercel.app"),
   openGraph: {
     title: "Aymen Derouiche — Étudiant polyvalent à Mons | CV & Portfolio",
     description:

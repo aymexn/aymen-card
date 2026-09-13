@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 interface CardTilt3DProps {
   children: React.ReactNode;
@@ -16,76 +16,85 @@ export default function CardTilt3D({
   glare = true,
 }: CardTilt3DProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [glarePos, setGlarePos] = useState({ x: 50, y: 50, opacity: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const glareRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsDesktop(window.matchMedia("(pointer: fine)").matches);
-  }, []);
+    // Only attach tilt listeners on fine pointer (desktop mouse/trackpad)
+    const isDesktop = window.matchMedia("(pointer: fine)").matches;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!isDesktop || prefersReducedMotion) return;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDesktop || !cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const card = cardRef.current;
+    const inner = innerRef.current;
+    const glareEl = glareRef.current;
+    if (!card || !inner) return;
 
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
+    let rafId: number | null = null;
 
-    const tiltX = -((y - centerY) / centerY) * maxTilt;
-    const tiltY = ((x - centerX) / centerX) * maxTilt;
+    const handleMouseMove = (e: MouseEvent) => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-    setTilt({ x: tiltX, y: tiltY });
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-    if (glare) {
-      const glareX = (x / rect.width) * 100;
-      const glareY = (y / rect.height) * 100;
-      setGlarePos({ x: glareX, y: glareY, opacity: 0.12 });
-    }
-  };
+        const tiltX = -((y - centerY) / centerY) * maxTilt;
+        const tiltY = ((x - centerX) / centerX) * maxTilt;
 
-  const handleMouseEnter = () => {
-    if (!isDesktop) return;
-    setIsHovered(true);
-  };
+        inner.style.transform = `rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) translateZ(4px)`;
 
-  const handleMouseLeave = () => {
-    if (!isDesktop) return;
-    setIsHovered(false);
-    setTilt({ x: 0, y: 0 });
-    setGlarePos((prev) => ({ ...prev, opacity: 0 }));
-  };
+        if (glareEl) {
+          const glareX = (x / rect.width) * 100;
+          const glareY = (y / rect.height) * 100;
+          glareEl.style.opacity = "0.12";
+          glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2) 0%, transparent 60%)`;
+        }
+      });
+    };
+
+    const handleMouseLeave = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      inner.style.transform = "rotateX(0deg) rotateY(0deg) translateZ(0px)";
+      if (glareEl) {
+        glareEl.style.opacity = "0";
+      }
+    };
+
+    card.addEventListener("mousemove", handleMouseMove, { passive: true });
+    card.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      card.removeEventListener("mousemove", handleMouseMove);
+      card.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [maxTilt]);
 
   return (
     <div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
       className={`perspective-1000 ${className}`}
       style={{ transformStyle: "preserve-3d" }}
     >
       <div
-        className="relative w-full h-full transition-transform duration-200 ease-out"
+        ref={innerRef}
+        className="relative w-full h-full transition-transform duration-200 ease-out will-change-transform"
         style={{
-          transform: isHovered
-            ? `rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg) translateZ(4px)`
-            : "rotateX(0deg) rotateY(0deg) translateZ(0px)",
+          transform: "rotateX(0deg) rotateY(0deg) translateZ(0px)",
           transformStyle: "preserve-3d",
         }}
       >
         {children}
 
         {/* Specular glare overlay on hover */}
-        {glare && isDesktop && (
+        {glare && (
           <div
-            className="absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-300 z-30"
-            style={{
-              opacity: glarePos.opacity,
-              background: `radial-gradient(circle at ${glarePos.x}% ${glarePos.y}%, rgba(255,255,255,0.2) 0%, transparent 60%)`,
-            }}
+            ref={glareRef}
+            className="absolute inset-0 rounded-3xl pointer-events-none transition-opacity duration-300 z-30 opacity-0"
           />
         )}
       </div>

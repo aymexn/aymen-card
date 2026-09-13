@@ -16,7 +16,7 @@ export const CONTACT = {
   whatsappDisplayIntl: "+32 465 10 46 88",
   linkedin: "https://linkedin.com/in/aymen-derouiche",
   github: "https://github.com/aymexn",
-  portfolioUrl: "https://aymenderouiche.com",
+  portfolioUrl: "https://portfolio-pi-five-bykqu64adi.vercel.app",
 };
 
 export function getWhatsAppUrl(): string {

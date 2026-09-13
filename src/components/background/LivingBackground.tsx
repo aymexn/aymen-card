@@ -16,20 +16,31 @@ export default function LivingBackground() {
     const isDesktop = window.matchMedia("(pointer: fine)").matches;
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    // 1. Scroll-based undertone listener
+    // 1. Scroll-based undertone listener (Throttled with rAF, caches scrollFraction to avoid layout thrashing)
+    let scrollFraction = 0;
+    let scrollTicking = false;
+
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const windowHeight = window.innerHeight;
+      if (!scrollTicking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const windowHeight = window.innerHeight;
+          const totalScrollable = Math.max(1, document.documentElement.scrollHeight - windowHeight);
+          scrollFraction = scrollY / totalScrollable;
 
-      const techSection = document.getElementById("profil-tech");
-      const atlasSection = document.getElementById("atlaserp");
+          const techSection = document.getElementById("profil-tech");
+          const atlasSection = document.getElementById("atlaserp");
 
-      if (atlasSection && scrollY + windowHeight * 0.4 > atlasSection.offsetTop) {
-        setPathTone("tech");
-      } else if (techSection && scrollY + windowHeight * 0.4 > techSection.offsetTop) {
-        setPathTone("tech");
-      } else {
-        setPathTone("retail");
+          if (atlasSection && scrollY + windowHeight * 0.4 > atlasSection.offsetTop) {
+            setPathTone("tech");
+          } else if (techSection && scrollY + windowHeight * 0.4 > techSection.offsetTop) {
+            setPathTone("tech");
+          } else {
+            setPathTone("retail");
+          }
+          scrollTicking = false;
+        });
+        scrollTicking = true;
       }
     };
 
@@ -97,11 +108,12 @@ export default function LivingBackground() {
 
       renderer = new THREE.WebGLRenderer({
         alpha: true,
-        antialias: true,
+        antialias: isDesktop,
         powerPreference: "low-power",
+        precision: isDesktop ? "highp" : "mediump",
       });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setPixelRatio(isDesktop ? Math.min(window.devicePixelRatio, 1.25) : 1.0);
       container.appendChild(renderer.domElement);
 
       mainGroup = new THREE.Group();
@@ -146,8 +158,8 @@ export default function LivingBackground() {
       // Position the main geometric accent slightly offset to frame content elegantly
       mainGroup.position.set(-1.8, 0.8, -1.0);
 
-      // B) Full-viewport constellation particle field that remains visible across entire page and all scroll depths
-      const particleCount = isDesktop ? 90 : 45;
+      // B) Full-viewport constellation particle field
+      const particleCount = isDesktop ? 80 : 35;
       const particlePositions = new Float32Array(particleCount * 3);
       for (let i = 0; i < particleCount * 3; i += 3) {
         particlePositions[i] = (Math.random() - 0.5) * 14;
@@ -168,49 +180,53 @@ export default function LivingBackground() {
       starField = new THREE.Points(starGeo, starMat);
       scene.add(starField);
 
-      // Connecting constellation lines between nearby particles
-      const linePositions: number[] = [];
-      const threshold = 2.4;
-      for (let i = 0; i < particleCount; i++) {
-        const x1 = particlePositions[i * 3];
-        const y1 = particlePositions[i * 3 + 1];
-        const z1 = particlePositions[i * 3 + 2];
-        for (let j = i + 1; j < particleCount; j++) {
-          const x2 = particlePositions[j * 3];
-          const y2 = particlePositions[j * 3 + 1];
-          const z2 = particlePositions[j * 3 + 2];
-          const dist = Math.hypot(x1 - x2, y1 - y2, z1 - z2);
-          if (dist < threshold) {
-            linePositions.push(x1, y1, z1, x2, y2, z2);
+      // Connecting constellation lines on desktop only
+      if (isDesktop) {
+        const linePositions: number[] = [];
+        const threshold = 2.4;
+        for (let i = 0; i < particleCount; i++) {
+          const x1 = particlePositions[i * 3];
+          const y1 = particlePositions[i * 3 + 1];
+          const z1 = particlePositions[i * 3 + 2];
+          for (let j = i + 1; j < particleCount; j++) {
+            const x2 = particlePositions[j * 3];
+            const y2 = particlePositions[j * 3 + 1];
+            const z2 = particlePositions[j * 3 + 2];
+            const dist = Math.hypot(x1 - x2, y1 - y2, z1 - z2);
+            if (dist < threshold) {
+              linePositions.push(x1, y1, z1, x2, y2, z2);
+            }
           }
         }
-      }
 
-      constellationGeo = new THREE.BufferGeometry();
-      constellationGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
-      constellationMat = new THREE.LineBasicMaterial({
-        color: 0x19d7ff,
-        transparent: true,
-        opacity: 0.12,
-        blending: THREE.AdditiveBlending,
-      });
-      constellationLines = new THREE.LineSegments(constellationGeo, constellationMat);
-      scene.add(constellationLines);
+        constellationGeo = new THREE.BufferGeometry();
+        constellationGeo.setAttribute("position", new THREE.Float32BufferAttribute(linePositions, 3));
+        constellationMat = new THREE.LineBasicMaterial({
+          color: 0x19d7ff,
+          transparent: true,
+          opacity: 0.12,
+          blending: THREE.AdditiveBlending,
+        });
+        constellationLines = new THREE.LineSegments(constellationGeo, constellationMat);
+        scene.add(constellationLines);
+      }
     }
 
-    // 4. Combined Render Loop (60 FPS)
+    // 4. Combined Render Loop (Optimized 60/120 FPS)
     const render = () => {
       animId = requestAnimationFrame(render);
 
-      // Cursor spotlight physics
-      currentX += (mouseX - currentX) * 0.08;
-      currentY += (mouseY - currentY) * 0.08;
+      // Cursor spotlight physics on desktop only
+      if (isDesktop) {
+        currentX += (mouseX - currentX) * 0.08;
+        currentY += (mouseY - currentY) * 0.08;
 
-      if (spotlightRef.current) {
-        spotlightRef.current.style.transform = `translate3d(${currentX - 400}px, ${currentY - 400}px, 0)`;
-      }
-      if (gridGlowRef.current) {
-        gridGlowRef.current.style.transform = `translate3d(${currentX - 250}px, ${currentY - 250}px, 0)`;
+        if (spotlightRef.current) {
+          spotlightRef.current.style.transform = `translate3d(${currentX - 400}px, ${currentY - 400}px, 0)`;
+        }
+        if (gridGlowRef.current) {
+          gridGlowRef.current.style.transform = `translate3d(${currentX - 250}px, ${currentY - 250}px, 0)`;
+        }
       }
 
       // Three.js 3D Physics
@@ -238,21 +254,22 @@ export default function LivingBackground() {
           constellationLines.rotation.x += delta * 0.01;
         }
 
-        // Mouse tilt on 3D group
-        const normX = (mouseX / window.innerWidth - 0.5) * 2;
-        const normY = (mouseY / window.innerHeight - 0.5) * 2;
-        targetRotX = normY * 0.25;
-        targetRotY = normX * 0.25;
+        if (isDesktop) {
+          // Mouse tilt on 3D group
+          const normX = (mouseX / window.innerWidth - 0.5) * 2;
+          const normY = (mouseY / window.innerHeight - 0.5) * 2;
+          targetRotX = normY * 0.25;
+          targetRotY = normX * 0.25;
 
-        currentRotX += (targetRotX - currentRotX) * 0.05;
-        currentRotY += (targetRotY - currentRotY) * 0.05;
+          currentRotX += (targetRotX - currentRotX) * 0.05;
+          currentRotY += (targetRotY - currentRotY) * 0.05;
+        }
 
         if (mainGroup) {
           mainGroup.rotation.x = currentRotX;
           mainGroup.rotation.y = currentRotY;
 
-          // Gentle parallax with window scroll
-          const scrollFraction = window.scrollY / Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+          // Gentle parallax with cached scrollFraction (no layout thrashing)
           mainGroup.position.y = 0.8 - scrollFraction * 1.6;
         }
 
@@ -307,6 +324,7 @@ export default function LivingBackground() {
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden select-none bg-[#040711]"
+      style={{ contain: "strict", willChange: "transform" }}
     >
       {/* 1. Deep navy base and shifting aurora mesh */}
       <div className="absolute inset-0 opacity-80 transition-opacity duration-1000">

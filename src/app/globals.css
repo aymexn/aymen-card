@@ -149,12 +149,19 @@ body {
 @media (pointer: coarse) {
   a, button {
     min-height: 44px;
+    touch-action: manipulation;
   }
   
   a:active, button:active {
     transform: scale(0.97);
-    transition: transform 60ms ease-out !important;
+    transition: transform 50ms ease-out !important;
   }
+}
+
+/* Content Visibility: dramatically improves initial page load and scroll FPS */
+#creations, #contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
 }
 
 /* Reduced motion overrides */

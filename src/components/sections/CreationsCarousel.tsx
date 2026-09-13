@@ -241,15 +241,9 @@ export default function CreationsCarousel() {
 
               {/* Image Preview - Full image displayed with zero cropping */}
               <div className="relative w-full h-64 sm:h-72 bg-[#02050E] overflow-hidden flex items-center justify-center">
-                {/* Soft ambient blur backdrop using the image's own colors */}
-                <Image
-                  src={project.image}
-                  alt=""
-                  fill
-                  aria-hidden="true"
-                  className="object-cover scale-125 blur-2xl opacity-35 pointer-events-none"
-                />
-                <div className="absolute inset-0 bg-[#02050E]/40 pointer-events-none" />
+                {/* Pure CSS Ambient lighting (Zero GPU/DOM overhead, zero duplicate decodes) */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,_rgba(25,215,255,0.12),_transparent_70%)] pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#02050E] via-transparent to-transparent opacity-60 pointer-events-none" />
 
                 {/* Foreground uncropped image */}
                 <div className="relative w-full h-full p-2.5 flex items-center justify-center z-[1]">
@@ -257,6 +251,7 @@ export default function CreationsCarousel() {
                     src={project.image}
                     alt={project.title}
                     fill
+                    loading={idx < 2 ? "eager" : "lazy"}
                     sizes="(max-width: 640px) 85vw, 340px"
                     className="object-contain p-1 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.85)] group-hover:scale-[1.03] transition-transform duration-300"
                   />
@@ -300,12 +295,12 @@ export default function CreationsCarousel() {
           </div>
 
           <a
-            href={CONTACT.github}
+            href={CONTACT.portfolioUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="py-2.5 px-5 rounded-xl bg-[#19D7FF] hover:bg-[#38BDF8] active:scale-[0.96] text-[#030712] text-xs font-black tracking-wider uppercase transition-all shadow-md inline-flex items-center gap-2 shrink-0"
           >
-            <span>VOIR LE PORTFOLIO COMPLET SUR GITHUB</span>
+            <span>VOIR LE PORTFOLIO COMPLET</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
@@ -335,15 +330,9 @@ export default function CreationsCarousel() {
 
             {/* Modal Image - Full artwork displayed without cropping */}
             <div className="relative w-full h-64 sm:h-80 md:h-96 rounded-2xl overflow-hidden bg-[#02050E] border border-white/10 shrink-0 flex items-center justify-center">
-              {/* Soft ambient blur backdrop */}
-              <Image
-                src={selectedProject.image}
-                alt=""
-                fill
-                aria-hidden="true"
-                className="object-cover scale-125 blur-3xl opacity-35 pointer-events-none"
-              />
-              <div className="absolute inset-0 bg-[#02050E]/40 pointer-events-none" />
+              {/* Pure CSS Ambient Lighting */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(25,215,255,0.14),_transparent_75%)] pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#02050E] via-transparent to-transparent opacity-60 pointer-events-none" />
 
               {/* Foreground uncropped image */}
               <div className="relative w-full h-full p-2 sm:p-3 flex items-center justify-center z-[1]">
